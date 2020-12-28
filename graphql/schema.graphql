@@ -15,4 +15,35 @@ type User {
     email: String!
     created_at: DateTime!
     updated_at: DateTime!
+    boards: [Board!]! @hasMany
+    cards: [Card!]! @hasMany
+}
+
+type Board {
+    id: ID!
+    title: String!
+    color: String!
+    lists: [CardList!]! @hasMany
+    owner: User! @belongsTo
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type CardList {
+    id: ID!
+    title: String!
+    board: Board! @belongsTo
+    cards: [Card!]! @hasMany
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Card {
+    id: ID!
+    title: String!
+    order: Int!
+    list: CardList! @belongsTo
+    owner: User! @belongsTo
+    created_at: DateTime!
+    updated_at: DateTime!
 }
