@@ -9,36 +9,23 @@
         <div class="h-full flex flex-1 flex-col items-stretch">
             <div class="mx-4 mb-2 text-white font-bold text-lg">The board title goes here</div>
             <div class="flex flex-1 items-start overflow-x-auto mx-2">
-                <div class="bg-gray-300 rounded-sm p-2 mr-2 list">
-                    <div class="flex justify-between">
-                        <div class="text-gray-800 pl-2 pb-2 font-bold">List title</div>
-                    </div>
 
-                    <div class="bg-white card rounded-sm p-2 cursor-pointer text-sm hover:bg-gray-100 mb-2">
-                        XXX
-                    </div>
+                <list></list>
+                <list></list>
 
-                    <div class="bg-white card rounded-sm p-2 cursor-pointer text-sm hover:bg-gray-100 mb-2">
-                        XXX
-                    </div>
-
-                    <div class="bg-white card rounded-sm p-2 cursor-pointer text-sm hover:bg-gray-100 mb-2">
-                        XXX
-                    </div>
-
-
-                    <div class="rounded-sm p-2 text-gray-600 cursor-pointer hover:bg-gray-400 hover:text-gray-800 text-sm">
-                        Add new card
-                    </div>
-
-                </div>
             </div>
+
         </div>
+
+
     </div>
 </template>
 
 <script>
+    import List from "../components/List";
+
     export default {
+        components:{List},
         mounted() {
             console.log('Component mounted.')
         }
@@ -50,10 +37,5 @@
     .header{
         height:40px
     }
-    .list{
-        width:250px;
-    }
-    .card{
-        box-shadow: 0 1px 0 rgba(9,30,66,.25);
-    }
+
 </style>
