@@ -1,4 +1,6 @@
-window._ = require('lodash');
+import * as lodash from 'lodash'
+
+window._ = lodash;
 
 
 // window.axios = require('axios');
