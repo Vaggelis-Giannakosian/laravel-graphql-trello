@@ -10,6 +10,8 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function list(): BelongsTo
     {
         return $this->belongsTo(CardList::class);

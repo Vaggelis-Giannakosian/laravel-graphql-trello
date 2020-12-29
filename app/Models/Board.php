@@ -11,6 +11,8 @@ class Board extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
 
     public function lists(): HasMany
     {
