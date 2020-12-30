@@ -15,7 +15,7 @@
             <button
                 class="rounded-sm text-white px-3 py-1 bg-indigo-700 cursor-pointer hover:bg-indigo-600 outline-none"
                 @click="saved"
-            >Add Card
+            >{{ label }}
             </button>
 
             <button
@@ -32,7 +32,7 @@
 
     export default {
         name: "CardEditor",
-        props: ['value'],
+        props: ['value','label'],
         methods: {
             close() {
                 this.$emit('closed')
