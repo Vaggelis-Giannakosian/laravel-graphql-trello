@@ -7,7 +7,9 @@
         <card @deleted="$emit('card-deleted',{...$event,listId:list.id})" v-for="card in list.cards" :key="card.id" :card="card"></card>
 
 
-        <CardEditor :list="list" @closed="editing=false"  @added="$emit('card-added',{...$event, listId:list.id})" v-if="editing"></CardEditor>
+        <CardAddEditor  :list="list" @closed="editing=false"  @added="$emit('card-added',{...$event, listId:list.id})" v-if="editing"></CardAddEditor>
+
+
         <CardAddButton @click="editing=true" v-else></CardAddButton>
 
     </div>
@@ -16,12 +18,12 @@
 <script>
     import Card from "./Card";
     import CardAddButton from "./CardAddButton";
-    import CardEditor from "./CardEditor";
+    import CardAddEditor from "./CardAddEditor";
 
     export default {
         name: "List",
         props:['list'],
-        components:{Card,CardAddButton,CardEditor},
+        components:{Card,CardAddButton,CardAddEditor},
         data(){
             return {
                 editing:false

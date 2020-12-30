@@ -3,17 +3,18 @@
         <textarea name=""
                   class="rounded-md shadow-card py-1 px-2 outline-none w-full text-gray-900 text-sm bg-white h-16 resize-none"
                   placeholder="Enter a title for this card"
-                  v-model="title"
+                  :value="value"
                   ref="editor"
                   @keyup.esc="close"
-                  @keyup.enter.exact="addCard"
+                  @keyup.enter.exact="saved"
+                  @input="$emit('input',$event.target.value)"
         >
         </textarea>
 
         <div class="flex">
             <button
                 class="rounded-sm text-white px-3 py-1 bg-indigo-700 cursor-pointer hover:bg-indigo-600 outline-none"
-                @click="addCard"
+                @click="saved"
             >Add Card
             </button>
 
@@ -28,39 +29,16 @@
 </template>
 
 <script>
-    import CardAdd from './../graphql/CardAdd.gql'
-    import {EVENT_CARD_ADDED} from './../constants'
 
     export default {
         name: "CardEditor",
-        props: ['list'],
-        data() {
-            return {
-                title: null
-            }
-        },
+        props: ['value'],
         methods: {
-            addCard() {
-                this.$apollo.mutate({
-                    mutation: CardAdd,
-                    variables: {
-                        'title': this.title,
-                        'order': this.list.cards.length + 1,
-                        'listId': this.list.id,
-                        'ownerId': 1,
-                    },
-                    update: (store, {data: {cardAdd}}) => {
-                        this.$emit("added", {
-                            store,
-                            data: cardAdd,
-                            type: EVENT_CARD_ADDED
-                        })
-                        this.close()
-                    }
-                })
-            },
             close() {
                 this.$emit('closed')
+            },
+            saved(){
+                this.$emit("saved")
             }
         },
         mounted() {
