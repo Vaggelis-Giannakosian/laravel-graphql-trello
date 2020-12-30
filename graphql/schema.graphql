@@ -38,6 +38,7 @@ type Board {
 type CardList {
     id: ID!
     title: String!
+    board_id: ID!
     board: Board! @belongsTo
     cards: [Card!]! @hasMany
     created_at: DateTime!

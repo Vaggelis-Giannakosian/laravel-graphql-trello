@@ -4,6 +4,7 @@ query BoardWithListsAndCards ($id: ID!){
         color
         lists{
             id
+            board_id
             title
             cards{
                 id

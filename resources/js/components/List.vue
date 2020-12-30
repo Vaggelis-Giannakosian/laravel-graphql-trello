@@ -7,8 +7,8 @@
         <card v-for="card in list.cards" :key="card.id" :card="card"></card>
 
 
-        <CardEditor></CardEditor>
-        <CardAddButton></CardAddButton>
+        <CardEditor :list="list" @closed="editing=false" v-if="editing"></CardEditor>
+        <CardAddButton @click="editing=true" v-else></CardAddButton>
 
     </div>
 </template>
@@ -22,6 +22,11 @@
         name: "List",
         props:['list'],
         components:{Card,CardAddButton,CardEditor},
+        data(){
+            return {
+                editing:false
+            }
+        },
     }
 </script>
 
