@@ -1,9 +1,9 @@
 <template>
-    <div class="h-full flex flex-col items-stretch bg-purple-500" >
+    <div class="h-full flex flex-col items-stretch bg-purple-500">
         <div class="header text-white flex justify-between items-center mb-2 bg-purple-600">
             <div class="ml-2 w-1/3">X</div>
             <div class="text-xl opacity-50 cursor-pointer hover:opacity-75">Graph Trello</div>
-            <div  class="mr-2 w-1/3 flex justify-end">X</div>
+            <div class="mr-2 w-1/3 flex justify-end">X</div>
         </div>
 
         <div class="h-full flex flex-1 flex-col items-stretch">
@@ -14,7 +14,13 @@
             </div>
 
             <div v-if="board" class="flex flex-1 items-start overflow-x-auto mx-2">
-                <list v-for="list in board.lists" :list="list" :key="list.id"></list>
+                <list
+                    @card-deleted="updateQueryCache($event)"
+                    @card-added="updateQueryCache($event)"
+                    v-for="list in board.lists"
+                    :list="list"
+                    :key="list.id"
+                ></list>
             </div>
 
         </div>
@@ -23,24 +29,53 @@
 </template>
 
 <script>
-    import gql from 'graphql-tag'
     import List from "../components/List";
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
+    import {EVENT_CARD_ADDED, EVENT_CARD_DELETED} from "../constants";
 
     export default {
-        components:{List},
-        data(){
+        components: {List},
+        data() {
             return {
-                id:1
+                id: 1
             }
         },
-        apollo:{
+        apollo: {
             board: {
                 query: BoardQuery,
-                variables(){
+                variables() {
                     return {
                         id: this.id
                     }
+                }
+            }
+        },
+        methods: {
+            updateQueryCache(event) {
+                const data = event.store.readQuery({
+                    query: BoardQuery,
+                    variables: {
+                        id: Number(this.board.id)
+                    }
+                })
+
+                this.handleDataMutation(data,event);
+
+
+                event.store.writeQuery({query: BoardQuery, data})
+            },
+            handleDataMutation(data,event)
+            {
+                const list = data.board.lists.find(list => list.id === event.listId)
+
+                switch (event.type) {
+                    case EVENT_CARD_ADDED:
+                        list.cards.push(event.data)
+                        break;
+                    case EVENT_CARD_DELETED:
+                        list.cards =  list.cards.filter(card=>card.id !== event.data.id)
+                        break;
+
                 }
             }
         }
@@ -49,8 +84,8 @@
 
 
 <style scoped>
-    .header{
-        height:40px
+    .header {
+        height: 40px
     }
 
 </style>

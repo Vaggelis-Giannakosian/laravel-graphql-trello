@@ -4,10 +4,10 @@
             <div class="text-gray-800 pl-2 pb-2 font-bold" v-text="list.title"></div>
         </div>
 
-        <card v-for="card in list.cards" :key="card.id" :card="card"></card>
+        <card @deleted="$emit('card-deleted',{...$event,listId:list.id})" v-for="card in list.cards" :key="card.id" :card="card"></card>
 
 
-        <CardEditor :list="list" @closed="editing=false" v-if="editing"></CardEditor>
+        <CardEditor :list="list" @closed="editing=false"  @added="$emit('card-added',{...$event, listId:list.id})" v-if="editing"></CardEditor>
         <CardAddButton @click="editing=true" v-else></CardAddButton>
 
     </div>
@@ -26,7 +26,7 @@
             return {
                 editing:false
             }
-        },
+        }
     }
 </script>
 

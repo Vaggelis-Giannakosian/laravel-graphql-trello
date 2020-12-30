@@ -29,7 +29,7 @@
 
 <script>
     import CardAdd from './../graphql/CardAdd.gql'
-    import BoardQuery from './../graphql/BoardWithListsAndCards.gql';
+    import {EVENT_CARD_ADDED} from './../constants'
 
     export default {
         name: "CardEditor",
@@ -50,27 +50,16 @@
                         'ownerId': 1,
                     },
                     update: (store, {data: {cardAdd}}) => {
-                        const data = store.readQuery({
-                            query: BoardQuery,
-                            variables: {
-                                id: Number(this.list.board_id)
-                            }
+                        this.$emit("added", {
+                            store,
+                            data: cardAdd,
+                            type: EVENT_CARD_ADDED
                         })
-
-                        data.board.lists
-                            .find(list => list.id === this.list.id )
-                            .cards.push(cardAdd)
-
-                        store.writeQuery({
-                            query: BoardQuery,
-                            data
-                        })
+                        this.close()
                     }
                 })
-
-                this.close()
             },
-            close(){
+            close() {
                 this.$emit('closed')
             }
         },
