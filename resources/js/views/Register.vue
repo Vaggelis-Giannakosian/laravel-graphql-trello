@@ -12,16 +12,18 @@
 
                     <TextInput type="text" label="Enter email" v-model="email"></TextInput>
 
+                    <TextInput type="text" label="Enter full name" v-model="name"></TextInput>
+
                     <TextInput type="password" label="Enter password" v-model="password"></TextInput>
 
-                    <SubmitButton label="Login"></SubmitButton>
+                    <SubmitButton label="Signup"></SubmitButton>
 
                 </form>
 
                 <div class="bg-gray-400 h-px w-full mb-6"></div>
 
                 <div class="text-center text-sm">
-                    <router-link :to="{name:'register'}" class="text-blue-600 hover:underline">Sign up for an account</router-link>
+                    <router-link :to="{name:'login'}" class="text-blue-600 hover:underline">Already have an account? Log in</router-link>
                 </div>
 
             </div>
@@ -34,12 +36,13 @@
     import SubmitButton from "../components/FormFields/SubmitButton";
 
     export default {
-        name: "Login",
+        name: "Register",
         components:{TextInput, SubmitButton},
         data(){
             return {
                 email:null,
-                password:null
+                name:null,
+                password:null,
             }
         },
         methods:{
