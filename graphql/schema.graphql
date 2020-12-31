@@ -15,6 +15,9 @@ type Mutation {
     cardAdd( input: CreateCardInput! @spread): Card! @create
     cardDelete( id: ID!): Card @delete
     cardUpdate(id:ID!, title: String): Card! @update
+
+    login(email:String!, password: String!): User!
+    logout:User @guard
 }
 
 type User {
