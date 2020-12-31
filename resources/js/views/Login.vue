@@ -8,7 +8,7 @@
             <div class="w-full sm:shadow-xl sm:bg-white sm:py-8 sm: px-12">
                 <div class="w-full text-center text-gray-600 font-bold mb-8">Log in to Graph Trello</div>
 
-                <form @submit.prevent="onSubmit">
+                <form @submit.prevent="authenticate">
 
                     <TextInput type="text" label="Enter email" v-model="email"></TextInput>
 
@@ -32,6 +32,7 @@
 <script>
     import TextInput from "../components/FormFields/TextInput";
     import SubmitButton from "../components/FormFields/SubmitButton";
+    import LoginQuery from "../graphql/Login.gql"
 
     export default {
         name: "Login",
@@ -43,8 +44,17 @@
             }
         },
         methods:{
-            onSubmit(){
-                console.log(this.email,this.password)
+            authenticate(){
+                this.$apollo.mutate({
+                    mutation:LoginQuery,
+                    variables:{
+                        email:this.email,
+                        password:this.password
+                    },
+                    update:(store,{data:{login}})=>{
+                        console.log(login)
+                    }
+                });
             }
         }
     }
