@@ -66,7 +66,7 @@
                         }
                     })
 
-                    this.$store.commit('setLogged',true)
+                    this.$store.dispatch('setLogged',true)
 
                     this.$router.push({name: 'board'})
 

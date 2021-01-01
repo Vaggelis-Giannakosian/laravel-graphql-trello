@@ -72,6 +72,7 @@
                         }
                     })
 
+                    this.$store.dispatch('setLogged',true)
                     this.$router.push({name: 'board'})
 
                 } catch (err) {

@@ -1,3 +1,6 @@
+<template>
+</template>
+
 <script>
     import Logout from './../graphql/Logout.gql'
 
@@ -10,7 +13,7 @@
                     console.log(logout)
                 }
             }).then(resp=>{
-                this.$store.commit('setLogged',false)
+                this.$store.dispatch('setLogged',false)
                 this.$router.push({name:'login'})
             })
         }
