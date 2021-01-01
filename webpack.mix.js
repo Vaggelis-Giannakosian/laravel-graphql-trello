@@ -25,9 +25,9 @@ mix.js('resources/js/app.js', 'public/js')
         require("tailwindcss"),
     ])
     .graphql()
-    .browserSync({
-       proxy: 'graphtrello.test'
-    });
+    // .browserSync({
+    //    proxy: 'graphtrello.test'
+    // });
 
 
 
