@@ -66,6 +66,8 @@
                         }
                     })
 
+                    this.$store.commit('setLogged',true)
+
                     this.$router.push({name: 'board'})
 
                 } catch (err) {

@@ -10,6 +10,7 @@
                     console.log(logout)
                 }
             }).then(resp=>{
+                this.$store.commit('setLogged',false)
                 this.$router.push({name:'login'})
             })
         }

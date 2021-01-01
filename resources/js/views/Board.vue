@@ -3,7 +3,15 @@
         <div class="header text-white flex justify-between items-center mb-2 bg-purple-600">
             <div class="ml-2 w-1/3">X</div>
             <div class="text-xl opacity-50 cursor-pointer hover:opacity-75">Graph Trello</div>
-            <div class="mr-2 w-1/3 flex justify-end">X</div>
+            <div class="mr-2 w-1/3 flex justify-end">
+                <div v-if="isLogged">
+                    <router-link :to="{name:'logout'}"  class="header-btn">Logout</router-link>
+                </div>
+                <div v-else>
+                    <router-link :to="{name:'login'}"  class="header-btn">Sign In</router-link>
+                    <router-link :to="{name:'register'}"  class="header-btn">Register</router-link>
+                </div>
+            </div>
         </div>
 
         <div class="h-full flex flex-1 flex-col items-stretch">
@@ -51,6 +59,11 @@
                 }
             }
         },
+        computed: {
+            isLogged(){
+                return this.$store.state.isLogged
+            }
+        },
         methods: {
             updateQueryCache(event) {
                 const data = event.store.readQuery({
@@ -76,7 +89,7 @@
                         list.cards = list.cards.filter(card => card.id !== event.data.id)
                         break;
                     case EVENT_CARD_UPDATED:
-                        list.cards.find(card=>card.id===event.data.id).title = event.data.title
+                        list.cards.find(card => card.id === event.data.id).title = event.data.title
                         break;
 
                 }
