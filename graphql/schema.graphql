@@ -18,6 +18,7 @@ type Mutation {
 
     login(email:String!, password: String!): User!
     logout:User @guard
+    register( input:RegisterInput! @spread): User! @create
 }
 
 type User {
@@ -65,4 +66,10 @@ input CreateCardInput {
     order: Int!
     list_id: ID!
     owner_id: ID!
+}
+
+input RegisterInput{
+    email:String! @rules(apply: ["required","email","unique:users,email","max:255"])
+    password:String! @rules(apply: ["required","min:8"]) @hash
+    name:String!  @rules(apply: ["required","min:2","max:255"])
 }

@@ -6,9 +6,12 @@
             </div>
 
             <div class="w-full sm:shadow-xl sm:bg-white sm:py-8 sm: px-12">
+
+                <Errors :errors="errors"></Errors>
+
                 <div class="w-full text-center text-gray-600 font-bold mb-8">Log in to Graph Trello</div>
 
-                <form @submit.prevent="onSubmit">
+                <form @submit.prevent="registerUser">
 
                     <TextInput type="text" label="Enter email" v-model="email"></TextInput>
 
@@ -23,7 +26,9 @@
                 <div class="bg-gray-400 h-px w-full mb-6"></div>
 
                 <div class="text-center text-sm">
-                    <router-link :to="{name:'login'}" class="text-blue-600 hover:underline">Already have an account? Log in</router-link>
+                    <router-link :to="{name:'login'}" class="text-blue-600 hover:underline">Already have an account? Log
+                        in
+                    </router-link>
                 </div>
 
             </div>
@@ -34,33 +39,57 @@
 <script>
     import TextInput from "../components/FormFields/TextInput";
     import SubmitButton from "../components/FormFields/SubmitButton";
+    import Register from "./../graphql/Register.gql"
+    import Errors from "../components/Errors";
+    import {normalizeGQLErrors} from "../utils";
 
     export default {
         name: "Register",
-        components:{TextInput, SubmitButton},
-        data(){
+        components: {TextInput, SubmitButton, Errors},
+        data() {
             return {
-                email:null,
-                name:null,
-                password:null,
+                email: null,
+                name: null,
+                password: null,
+                errors: []
             }
         },
-        methods:{
-            onSubmit(){
-                console.log(this.email,this.password)
+        methods: {
+            async registerUser() {
+                try {
+                    await this.$apollo.mutate({
+                        mutation: Register,
+                        variables: {
+                            input: {
+                                email: this.email,
+                                password: this.password,
+                                name: this.name,
+                            }
+
+                        },
+                        update: (store, {data: {register}}) => {
+                            console.log(register)
+                        }
+                    })
+
+                    this.$router.push({name: 'board'})
+
+                } catch (err) {
+                    this.errors = normalizeGQLErrors(err)
+                }
+
             }
         }
     }
 </script>
 
 <style scoped>
-    .container{
+    .container {
         max-width: 300px;
     }
 
-    @media(min-width: 640px)
-    {
-        .container{
+    @media (min-width: 640px) {
+        .container {
             max-width: 400px;
         }
     }

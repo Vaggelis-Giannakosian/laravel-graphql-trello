@@ -6,6 +6,9 @@
             </div>
 
             <div class="w-full sm:shadow-xl sm:bg-white sm:py-8 sm: px-12">
+
+                <Errors :errors="errors"></Errors>
+
                 <div class="w-full text-center text-gray-600 font-bold mb-8">Log in to Graph Trello</div>
 
                 <form @submit.prevent="authenticate">
@@ -21,7 +24,8 @@
                 <div class="bg-gray-400 h-px w-full mb-6"></div>
 
                 <div class="text-center text-sm">
-                    <router-link :to="{name:'register'}" class="text-blue-600 hover:underline">Sign up for an account</router-link>
+                    <router-link :to="{name:'register'}" class="text-blue-600 hover:underline">Sign up for an account
+                    </router-link>
                 </div>
 
             </div>
@@ -33,41 +37,53 @@
     import TextInput from "../components/FormFields/TextInput";
     import SubmitButton from "../components/FormFields/SubmitButton";
     import LoginQuery from "../graphql/Login.gql"
+    import Errors from "../components/Errors";
+    import {normalizeGQLErrors} from "../utils";
 
     export default {
         name: "Login",
-        components:{TextInput, SubmitButton},
-        data(){
+        components: {TextInput, SubmitButton, Errors},
+        data() {
             return {
-                email:null,
-                password:null
+                email: null,
+                password: null,
+                errors: []
             }
         },
-        methods:{
-            authenticate(){
-                this.$apollo.mutate({
-                    mutation:LoginQuery,
-                    variables:{
-                        email:this.email,
-                        password:this.password
-                    },
-                    update:(store,{data:{login}})=>{
-                        console.log(login)
-                    }
-                });
+        methods: {
+            async authenticate() {
+                this.errors = [];
+
+                try {
+                    await this.$apollo.mutate({
+                        mutation: LoginQuery,
+                        variables: {
+                            email: this.email,
+                            password: this.password
+                        },
+                        update: (store, {data: {login}}) => {
+                            console.log(login)
+                        }
+                    })
+
+                    this.$router.push({name: 'board'})
+
+                } catch (err) {
+                    this.errors = normalizeGQLErrors(err)
+                }
+
             }
         }
     }
 </script>
 
 <style scoped>
-    .container{
+    .container {
         max-width: 300px;
     }
 
-    @media(min-width: 640px)
-    {
-        .container{
+    @media (min-width: 640px) {
+        .container {
             max-width: 400px;
         }
     }
