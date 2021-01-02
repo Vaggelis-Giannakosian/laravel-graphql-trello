@@ -6,7 +6,7 @@
             <div class="mr-2 w-1/3 flex justify-end">
                 <div v-if="isLogged" class="flex items-center">
                     <div class="text-sm mr-2" v-text="username"></div>
-                    <router-link :to="{name:'logout'}" class="header-btn">Logout</router-link>
+                    <a @click="logout" class="header-btn cursor-pointer">Logout</a>
                 </div>
                 <div v-else>
                     <router-link :to="{name:'login'}" class="header-btn">Sign In</router-link>
@@ -43,6 +43,7 @@
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
     import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from "../constants";
     import {mapState} from 'vuex'
+    import Logout from "../graphql/Logout.gql";
 
     export default {
         components: {List},
@@ -94,6 +95,17 @@
                         break;
 
                 }
+            },
+            logout() {
+                this.$apollo.mutate({
+                    mutation: Logout,
+                    update: (store, {data: {logout}}) => {
+                        if (logout?.id) {
+                            this.$store.dispatch('logout')
+                            this.$router.push({name: 'login'})
+                        }
+                    }
+                })
             }
         }
     }

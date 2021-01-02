@@ -1,7 +1,5 @@
 mutation Logout {
     logout{
         id
-        name
-        email
     }
 }
