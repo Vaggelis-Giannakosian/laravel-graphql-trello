@@ -4,12 +4,13 @@
             <div class="ml-2 w-1/3">X</div>
             <div class="text-xl opacity-50 cursor-pointer hover:opacity-75">Graph Trello</div>
             <div class="mr-2 w-1/3 flex justify-end">
-                <div v-if="isLogged">
-                    <router-link :to="{name:'logout'}"  class="header-btn">Logout</router-link>
+                <div v-if="isLogged" class="flex items-center">
+                    <div class="text-sm mr-2" v-text="username"></div>
+                    <router-link :to="{name:'logout'}" class="header-btn">Logout</router-link>
                 </div>
                 <div v-else>
-                    <router-link :to="{name:'login'}"  class="header-btn">Sign In</router-link>
-                    <router-link :to="{name:'register'}"  class="header-btn">Register</router-link>
+                    <router-link :to="{name:'login'}" class="header-btn">Sign In</router-link>
+                    <router-link :to="{name:'register'}" class="header-btn">Register</router-link>
                 </div>
             </div>
         </div>
@@ -41,6 +42,7 @@
     import List from "../components/List";
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
     import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from "../constants";
+    import {mapState} from 'vuex'
 
     export default {
         components: {List},
@@ -59,11 +61,10 @@
                 }
             }
         },
-        computed: {
-            isLogged(){
-                return this.$store.state.isLogged
-            }
-        },
+        computed: mapState({
+            isLogged: 'isLogged',
+            username: state => state.user.name
+        }),
         methods: {
             updateQueryCache(event) {
                 const data = event.store.readQuery({

@@ -13,7 +13,7 @@
                     console.log(logout)
                 }
             }).then(resp=>{
-                this.$store.dispatch('setLogged',false)
+                this.$store.dispatch('logout')
                 this.$router.push({name:'login'})
             })
         }

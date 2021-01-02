@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import apollo from './apollo.config'
 import Me from './graphql/Me.gql'
+import Logout from './graphql/Logout.gql'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,10 @@ const store = {
             const isLogged = Boolean(payload)
             window.localStorage.setItem("isLogged", isLogged)
             commit('setLogged', isLogged)
+        },
+        logout({commit,dispatch}){
+            commit("setUser",nullUser())
+            dispatch("setLogged",false)
         },
         async fetchCurrentUser({commit, dispatch}) {
             const result = await apollo.defaultClient.query({
