@@ -17,5 +17,6 @@ const app = new Vue({
     store,
     beforeCreate() {
         store.dispatch('setLogged', window.localStorage.getItem('isLogged') === 'true')
+        store.dispatch("fetchCurrentUser")
     }
 });

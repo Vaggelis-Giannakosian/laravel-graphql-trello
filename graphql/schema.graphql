@@ -9,6 +9,7 @@ type Query {
     user(id: ID! @eq): User @find
     boards: [Board!]! @all
     board(id: ID! @eq): Board @find
+    me: User @auth
 }
 
 type Mutation {
