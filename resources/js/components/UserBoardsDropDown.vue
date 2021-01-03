@@ -2,7 +2,7 @@
     <div>
         <button @click="showBoards=!showBoards" class="header-btn">Boards</button>
 
-        <DropDownMenu :show="showBoards" v-if="!$apollo.loading">
+        <DropDownMenu :show="showBoards" v-if="!$apollo.loading" @closed="showBoards=false">
             <router-link v-for="board in userBoards"
                          :key="board.id"
                          :to="{name:'board',  params: { id: board.id }}"
