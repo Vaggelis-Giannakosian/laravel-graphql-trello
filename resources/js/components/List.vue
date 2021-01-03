@@ -38,7 +38,7 @@
         },
         computed:{
             canAddCard(){
-                return this.user.id === this.list.board.owner_id
+                return !this.editing && this.user.id === this.list.board.owner_id
             },
             ...mapState({
                 user: 'user'
