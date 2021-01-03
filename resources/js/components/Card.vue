@@ -56,7 +56,7 @@
                             type: EVENT_CARD_DELETED,
                         })
                     }
-                })
+                }).catch(err=>{})
             },
             updateCard() {
                 this.$apollo.mutate({
@@ -74,7 +74,7 @@
 
                         this.isEditing = false
                     }
-                })
+                }).catch(err=>{})
             }
         }
     }

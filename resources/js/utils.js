@@ -1,8 +1,11 @@
 export function normalizeGQLErrors(err) {
 
-    console.log(err.graphQLErrors)
     const hasInternal = errors => errors.some(e => e.internal);
     const replaceInternal = (errors, err) => hasInternal(errors) ? errors.filter(e => !e.internal).concat(err) : errors;
+
+    if(err?.networkError && err?.networkError.statusCode === 419){
+        throw new AuthenticationError('Unauthenticated')
+    }
 
     return replaceInternal((err?.graphQLErrors || []).map(error => {
 
@@ -26,3 +29,6 @@ export function normalizeGQLErrors(err) {
         message: 'You must provide your email and password'
     }).flat()
 }
+
+
+export class AuthenticationError extends Error{}
