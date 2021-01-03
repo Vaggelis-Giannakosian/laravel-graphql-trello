@@ -58,6 +58,7 @@ type Card {
     order: Int!
     list: CardList! @belongsTo
     owner: User! @belongsTo
+    owner_id: ID!
     created_at: DateTime!
     updated_at: DateTime!
 }

@@ -5,8 +5,8 @@
              class="group bg-white shadow-card rounded-sm p-2 cursor-pointer text-sm hover:bg-gray-100 mb-2 flex justify-between">
             <div class="" v-text="card.title"></div>
             <div class="flex font-bold opacity-0 group-hover:opacity-100 transition-opacity ease-out duration-500">
-                <div @click="isEditing=true" class="text-gray-400 pr-2 hover:text-yellow-700">E</div>
-                <div @click="deleteCard" class="text-gray-400 hover:text-yellow-700">D</div>
+                <div v-if="canUpdate" @click="isEditing=true" class="text-gray-400 pr-2 hover:text-yellow-700">E</div>
+                <div v-if="canDelete" @click="deleteCard" class="text-gray-400 hover:text-yellow-700">D</div>
             </div>
         </div>
 
@@ -20,6 +20,7 @@
     import CardDelete from "../graphql/CardDelete.gql";
     import CardEditor from "./CardEditor";
     import CardUpdate from './../graphql/CardUpdate.gql'
+    import {mapState} from 'vuex';
     import {EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from '../constants'
 
     export default {
@@ -32,6 +33,15 @@
                 title: this.card.title
             }
         },
+        computed: mapState({
+            userId: state => state.user.id,
+            canUpdate() {
+                return this.userId === this.card.owner_id
+            },
+            canDelete() {
+                return this.userId === this.card.owner_id
+            }
+        }),
         methods: {
             deleteCard() {
                 this.$apollo.mutate({

@@ -57,7 +57,7 @@
         methods: {
             async registerUser() {
                 try {
-                    await this.$apollo.mutate({
+                    const response = await this.$apollo.mutate({
                         mutation: Register,
                         variables: {
                             input: {
@@ -65,15 +65,15 @@
                                 password: this.password,
                                 name: this.name,
                             }
-
-                        },
-                        update: (store, {data: {register}}) => {
-                            console.log(register)
                         }
                     })
 
-                    this.$store.dispatch('setLogged',true)
-                    this.$router.push({name: 'board'})
+                    let user = response.data?.register;
+                    if (user) {
+                        this.$store.dispatch('setLogged', true)
+                        this.$store.commit('setUser', user)
+                        this.$router.push({name: 'board'})
+                    }
 
                 } catch (err) {
                     this.errors = normalizeGQLErrors(err)

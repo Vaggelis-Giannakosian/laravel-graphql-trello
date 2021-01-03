@@ -55,20 +55,21 @@
                 this.errors = [];
 
                 try {
-                    await this.$apollo.mutate({
+                    const response = await this.$apollo.mutate({
                         mutation: LoginQuery,
                         variables: {
                             email: this.email,
                             password: this.password
-                        },
-                        update: (store, {data: {login}}) => {
-                            console.log(login)
                         }
                     })
 
-                    this.$store.dispatch('setLogged',true)
-
-                    this.$router.push({name: 'board'})
+                    const user = response.data?.login
+                    if(user)
+                    {
+                        this.$store.dispatch('setLogged', true)
+                        this.$store.commit('setUser', user)
+                        this.$router.push({name: 'board'})
+                    }
 
                 } catch (err) {
                     this.errors = normalizeGQLErrors(err)
