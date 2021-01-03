@@ -9,6 +9,7 @@ type Query {
     user(id: ID! @eq): User @find
     boards: [Board!]! @all
     board(id: ID! @eq): Board @find
+    userBoards(owner_id:ID! @where): [Board!] @all @can(ability:"viewOwnedBoards", model:"App\\Models\\User", find:"owner_id")
     me: User @auth
 }
 

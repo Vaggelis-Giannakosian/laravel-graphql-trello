@@ -1,7 +1,11 @@
 <template>
     <div class="h-full flex flex-col items-stretch" :class="bgColor">
         <div class="header text-white flex justify-between items-center mb-2">
-            <div class="ml-2 w-1/3">X</div>
+            <div class="ml-2 w-1/3">
+
+                <UserBoardsDropDown></UserBoardsDropDown>
+
+            </div>
             <div class="text-xl opacity-50 cursor-pointer hover:opacity-75">Graph Trello</div>
             <div class="mr-2 w-1/3 flex justify-end">
                 <div v-if="isLogged" class="flex items-center">
@@ -41,13 +45,14 @@
 <script>
     import List from "../components/List";
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
+    import UserBoardsDropDown from "../components/UserBoardsDropDown";
     import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from "../constants";
     import {mapState} from 'vuex'
     import Logout from "../graphql/Logout.gql";
     import {colorMap500} from "../utils";
 
     export default {
-        components: {List},
+        components: {List,UserBoardsDropDown},
         apollo: {
             board: {
                 query: BoardQuery,
