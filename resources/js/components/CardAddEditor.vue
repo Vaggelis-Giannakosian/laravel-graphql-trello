@@ -6,16 +6,20 @@
     import CardAdd from './../graphql/CardAdd.gql'
     import {EVENT_CARD_ADDED} from '../constants'
     import CardEditor from './CardEditor'
+    import {mapState} from 'vuex'
 
     export default {
         name: "CardAddEditor",
-        components:{CardEditor},
+        components: {CardEditor},
         props: ['list'],
         data() {
             return {
                 title: null
             }
         },
+        computed: mapState({
+            userId: state => state.user.id
+        }),
         methods: {
             addCard() {
                 this.$apollo.mutate({
@@ -24,7 +28,7 @@
                         'title': this.title,
                         'order': this.list.cards.length + 1,
                         'listId': this.list.id,
-                        'ownerId': 1,
+                        'ownerId': this.userId,
                     },
                     update: (store, {data: {cardAdd}}) => {
                         this.$emit("added", {

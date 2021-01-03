@@ -16,7 +16,7 @@
                         v-if="editing"></CardAddEditor>
 
 
-        <CardAddButton @click="editing=true" v-else></CardAddButton>
+        <CardAddButton v-if="canAddCard" @click="editing=true"></CardAddButton>
 
     </div>
 </template>
@@ -25,6 +25,7 @@
     import Card from "./Card";
     import CardAddButton from "./CardAddButton";
     import CardAddEditor from "./CardAddEditor";
+    import {mapState} from 'vuex'
 
     export default {
         name: "List",
@@ -34,6 +35,14 @@
             return {
                 editing:false
             }
+        },
+        computed:{
+            canAddCard(){
+                return this.user.id === this.list.board.owner_id
+            },
+            ...mapState({
+                user: 'user'
+            })
         }
     }
 </script>
