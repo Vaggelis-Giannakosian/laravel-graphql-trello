@@ -2,12 +2,13 @@
     <div>
         <button @click="showBoards=!showBoards" class="header-btn">Boards</button>
 
-        <DropDownMenu :show="showBoards" v-if="!$apollo.loading" @closed="showBoards=false">
+        <DropDownMenu :show="showBoards" v-if="!$apollo.loading" @closed="hideDropDown">
             <router-link v-for="board in userBoards"
                          :key="board.id"
                          :to="{name:'board',  params: { id: board.id }}"
                          :class="bgColor100(board.color)"
                          class="m-2 rounded-sm opacity-100 hover:opacity-75 text-gray-700 font-bold cursor-pointer flex"
+                         @click.native="hideDropDown()"
             >
                 <div class="w-10 rounded-sm rounded-r-none" :class="bgColor200(board.color)"></div>
                 <div class="p-2" v-text="board.title"></div>
@@ -43,6 +44,10 @@
                 return {
                     [colorMap100[color]]:true
                 }
+            },
+            hideDropDown(){
+                console.log('hiding')
+                this.showBoards = false;
             }
         },
         apollo:{
