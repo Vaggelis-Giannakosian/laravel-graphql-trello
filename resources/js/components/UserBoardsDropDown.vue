@@ -7,12 +7,23 @@
                          :key="board.id"
                          :to="{name:'board',  params: { id: board.id }}"
                          :class="bgColor100(board.color)"
-                         class="m-2 rounded-sm opacity-100 hover:opacity-75 text-gray-700 font-bold cursor-pointer flex"
+                         class="rounded-sm opacity-100 hover:opacity-75 text-gray-700 font-bold cursor-pointer flex mb-1"
                          @click.native="hideDropDown()"
             >
                 <div class="w-10 rounded-sm rounded-r-none" :class="bgColor200(board.color)"></div>
                 <div class="p-2" v-text="board.title"></div>
             </router-link>
+
+            <div @click="showModal=true" class="rounded-sm hover:bg-gray-200 p-2 underline cursor-pointer mt-2">Create new board...</div>
+
+            <Modal :show="showModal"
+                   :width="300"
+                   :height="200"
+                   @closed="showModal=false"
+            >
+                Hello that's a message into the modal
+
+            </Modal>
         </DropDownMenu>
     </div>
 </template>
@@ -22,13 +33,15 @@
     import {mapState} from 'vuex'
     import UserBoards from '../graphql/UserBoards.gql'
     import {colorMap100,colorMap200} from '../utils'
+    import Modal from './Modal'
 
     export default {
         name: "UserBoardsDropDown",
-        components:{DropDownMenu},
+        components:{DropDownMenu,Modal},
         data(){
             return {
-                showBoards:false
+                showBoards:false,
+                showModal:false
             }
         },
         computed:mapState({
