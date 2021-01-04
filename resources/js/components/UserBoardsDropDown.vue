@@ -16,14 +16,11 @@
 
             <div @click="showModal=true" class="rounded-sm hover:bg-gray-200 p-2 underline cursor-pointer mt-2">Create new board...</div>
 
-            <Modal :show="showModal"
-                   :width="300"
-                   :height="200"
-                   @closed="showModal=false"
-            >
-                Hello that's a message into the modal
 
-            </Modal>
+            <BoardAddModal :show="showModal"
+                           @closed="showModal=false"
+            ></BoardAddModal>
+
         </DropDownMenu>
     </div>
 </template>
@@ -33,11 +30,11 @@
     import {mapState} from 'vuex'
     import UserBoards from '../graphql/UserBoards.gql'
     import {colorMap100,colorMap200} from '../utils'
-    import Modal from './Modal'
+    import BoardAddModal from "./BoardAddModal";
 
     export default {
         name: "UserBoardsDropDown",
-        components:{DropDownMenu,Modal},
+        components:{DropDownMenu,BoardAddModal},
         data(){
             return {
                 showBoards:false,
