@@ -35,6 +35,8 @@
                     :list="list"
                     :key="list.id"
                 ></list>
+
+                <ListAddEditor></ListAddEditor>
             </div>
 
         </div>
@@ -44,6 +46,7 @@
 
 <script>
     import List from "../components/List";
+    import ListAddEditor from "../components/ListAddEditor";
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
     import UserBoardsDropDown from "../components/UserBoardsDropDown";
     import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from "../constants";
@@ -52,7 +55,7 @@
     import {colorMap500} from "../utils";
 
     export default {
-        components: {List,UserBoardsDropDown},
+        components: {List,UserBoardsDropDown,ListAddEditor},
         apollo: {
             board: {
                 query: BoardQuery,
