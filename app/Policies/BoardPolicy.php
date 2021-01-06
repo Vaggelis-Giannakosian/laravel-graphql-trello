@@ -10,6 +10,12 @@ class BoardPolicy
 {
     use HandlesAuthorization;
 
+
+    public function delete(User $user, Board $board)
+    {
+        return $user->id === $board->owner_id;
+    }
+
     public function createList(User $user, Board $board)
     {
         return $user->id === $board->owner_id;

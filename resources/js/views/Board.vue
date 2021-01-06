@@ -23,7 +23,7 @@
 
             <div class="mx-4 mb-2 text-white font-bold text-lg">
                 <span v-if="$apollo.queries.board.loading">Loading...</span>
-                <span v-else v-text="board.title"></span>
+                <span v-else v-text="board ? board.title : 'Not found...'"></span>
             </div>
 
             <div v-if="board" class="flex flex-1 items-start overflow-x-auto mx-2">
@@ -78,7 +78,7 @@
         computed: {
             bgColor(){
                 return {
-                    "bg-gray-500" : this.$apollo.loading,
+                    "bg-gray-500" : this.$apollo.loading || !this.board,
                     [colorMap500[this.board?.color]] : true
                 }
             },
