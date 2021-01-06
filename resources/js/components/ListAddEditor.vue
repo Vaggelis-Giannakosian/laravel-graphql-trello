@@ -6,14 +6,14 @@
              v-text="'＋ Add another list'">
        </div>
 
-       <div v-else class="bg-gray-300 rounded-sm p-2 list">
+       <div v-else class="bg-gray-300 rounded-sm p-2 list" v-onClickway="hideEditor">
            <input type="text"
                   v-model="title"
                   ref="title"
                   class="rounded-sm border-blue-600 border-2 py-1 px-2 outline-none w-full text-gray-800 text-sm"
                   placeholder="Enter list title..."
                   @keyup.esc="hideEditor"
-
+                  @keyup.enter="createList"
            >
 
            <div class="flex">
@@ -29,9 +29,13 @@
 
 <script>
     import CardEditor from "./CardEditor";
+    import { directive as onClickway} from 'vue-clickaway'
+    import ListAdd from './../graphql/ListAdd.gql'
+    import {EVENT_LIST_ADDED} from "../constants";
 
     export default {
         name: "ListAddEditor",
+        props:['board_id'],
         components:{CardEditor},
         data(){
             return {
@@ -39,6 +43,7 @@
                 title: null
             }
         },
+        directives:{onClickway},
         methods:{
             hideEditor(){
                 this.editing = false
@@ -48,14 +53,27 @@
                 this.$nextTick(()=>this.$refs.title.focus())
             },
             createList(){
-                this.$apollo.mutate({
-                    mutation:'',
-                    variables:{
+                if(!this.title)
+                {
+                    alert('Provide title')
+                    return;
+                }
 
+                this.$apollo.mutate({
+                    mutation:ListAdd,
+                    variables:{
+                        board_id:this.board_id,
                         title:this.title,
                     },
                     update:(store,{data:{listAdd}})=>{
-                        console.log(listAdd)
+
+                        this.$emit('list-added',{
+                            store,
+                            data:listAdd,
+                            type: EVENT_LIST_ADDED
+                        })
+
+                        this.hideEditor()
                     }
                 })
             }

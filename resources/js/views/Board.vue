@@ -31,12 +31,15 @@
                     @card-deleted="updateQueryCache($event)"
                     @card-added="updateQueryCache($event)"
                     @card-updated="updateQueryCache($event)"
+                    @list-deleted="updateQueryCache($event)"
                     v-for="list in board.lists"
                     :list="list"
                     :key="list.id"
                 ></list>
 
-                <ListAddEditor></ListAddEditor>
+                <ListAddEditor @list-added="updateQueryCache($event)"
+                               :board_id="board.id">
+                </ListAddEditor>
             </div>
 
         </div>
@@ -49,7 +52,13 @@
     import ListAddEditor from "../components/ListAddEditor";
     import BoardQuery from '../graphql/BoardWithListsAndCards.gql'
     import UserBoardsDropDown from "../components/UserBoardsDropDown";
-    import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATED} from "../constants";
+    import {
+        EVENT_CARD_ADDED,
+        EVENT_CARD_DELETED,
+        EVENT_CARD_UPDATED,
+        EVENT_LIST_ADDED,
+        EVENT_LIST_DELETED
+    } from "../constants";
     import {mapState} from 'vuex'
     import Logout from "../graphql/Logout.gql";
     import {colorMap500} from "../utils";
@@ -109,6 +118,13 @@
                         break;
                     case EVENT_CARD_UPDATED:
                         list.cards.find(card => card.id === event.data.id).title = event.data.title
+                        break;
+                    case EVENT_LIST_ADDED:
+                        data.board.lists.push(event.data)
+                        break;
+                    case EVENT_LIST_DELETED:
+                        const removedListIndex = data.board.lists.findIndex(list=>list.id === event.data.id)
+                        data.board.lists.splice(removedListIndex,1)
                         break;
 
                 }
