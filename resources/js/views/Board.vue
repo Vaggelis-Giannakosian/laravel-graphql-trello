@@ -3,7 +3,7 @@
         <div class="header text-white flex justify-between items-center mb-2">
             <div class="ml-2 w-1/3">
 
-                <UserBoardsDropDown></UserBoardsDropDown>
+                <UserBoardsDropDown v-if="isLogged"></UserBoardsDropDown>
 
             </div>
             <div class="text-xl opacity-50 cursor-pointer hover:opacity-75">Graph Trello</div>
@@ -88,7 +88,11 @@
                 this.handleDataMutation(data, event);
 
 
-                event.store.writeQuery({query: BoardQuery, data})
+                event.store.writeQuery({
+                    query: BoardQuery,
+                    variables: {id: Number(this.board.id)},
+                    data
+                })
             },
             handleDataMutation(data, event) {
                 const list = data.board.lists.find(list => list.id === event.listId)

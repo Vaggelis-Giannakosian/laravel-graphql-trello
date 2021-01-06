@@ -70,6 +70,10 @@ export const colorMap100 = {
     indigo: 'bg-indigo-100',
 }
 
-
+export const colorGrid = [
+    ['teal','orange','gray'],
+    ['yellow','purple','red'],
+    ['green','blue','indigo']
+];
 
 

@@ -56,7 +56,6 @@
                 }
             },
             hideDropDown(){
-                console.log('hiding')
                 this.showBoards = false;
             }
         },

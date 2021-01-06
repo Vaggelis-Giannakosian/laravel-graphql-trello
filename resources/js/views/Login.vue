@@ -68,7 +68,7 @@
                     {
                         this.$store.dispatch('setLogged', true)
                         this.$store.commit('setUser', user)
-                        this.$route.push({name: 'board',params:{id:1}})
+                        this.$router.push({name: 'board',params:{id:1}})
                     }
 
                 } catch (err) {
