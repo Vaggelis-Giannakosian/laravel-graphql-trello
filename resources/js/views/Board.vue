@@ -23,7 +23,7 @@
 
             <div class="mx-4 mb-2 text-white font-bold text-lg">
                 <span v-if="$apollo.queries.board.loading">Loading...</span>
-                <span v-else v-text="board ? board.title : 'Not found...'"></span>
+                <span v-else v-text="board ? board.title : 'You are not allowed to view this board.'"></span>
             </div>
 
             <div v-if="board" class="flex flex-1 items-start overflow-x-auto mx-2">
@@ -72,6 +72,9 @@
                     return {
                         id: Number(this.$route.params.id)
                     }
+                },
+                error(error){
+
                 }
             }
         },
